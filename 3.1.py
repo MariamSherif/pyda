@@ -30,5 +30,7 @@ plt.plot(minx1, f(minx1), 'x')
 plt.plot(minx2, f(minx2), 'o')
 plt.show()
 
+print mini.nfev
+
 with open('task1.txt', 'w') as answ:
     answ.write('%.2f %.2f' % (answ1, answ2))
