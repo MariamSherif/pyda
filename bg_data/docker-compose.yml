@@ -1,0 +1,9 @@
+version: '3'
+services:
+    yarn:
+        image: bigdatateam/yarn-notebook:0.3
+        volumes:
+            - "${PWD}:/home/jovyan/work"
+        ports:
+            - "8888:8888"
+            - "8088:8088"
