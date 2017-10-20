@@ -7,3 +7,10 @@ services:
         ports:
             - "8888:8888"
             - "8088:8088"
+    spark:
+        image: bigdatateam/spark-course1
+        volumes:
+            - "${PWD}:/home/jovyan/work"
+        ports:
+            - "8888:8888"
+            - "8088:8088"
