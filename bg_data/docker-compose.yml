@@ -14,3 +14,10 @@ services:
         ports:
             - "8888:8888"
             - "8088:8088"
+    hive:
+        image: bigdatateam/hive-course2
+        volumes:
+            - "${PWD}:/home/jovyan/work"
+        ports:
+            - "8888:8888"
+            - "8088:8088"
