@@ -1,6 +1,6 @@
 
--- CREATE DATABASE IF NOT EXISTS jovyan;
--- USE jovyan;
+CREATE DATABASE IF NOT EXISTS mskorokhod;
+USE mskorokhod;
 -- Create posts_sample_external table
 
 DROP TABLE IF EXISTS `posts_sample_external`;
@@ -40,12 +40,19 @@ PARTITIONED BY (
   `year` string, 
   `month` string
 )
-STORED AS ORC
+CLUSTERED BY ( 
+  `date`
+) 
+SORTED BY ( 
+  id ASC
+) 
+INTO 8 BUCKETS
+STORED AS TEXTFILE
 LOCATION
-    '/user/jovyan/posts_sample'
+  '/user/jovyan/task1'
 ;
 
--- SET hive.exec.dynamic.partition=true;  
+SET hive.exec.dynamic.partition=true;  
 SET hive.exec.dynamic.partition.mode=nonstrict;
 
 INSERT OVERWRITE TABLE `posts_sample`
@@ -60,6 +67,15 @@ SELECT
   `favorite_count`,
   split(regexp_replace(`tags`, '(&lt\;|&gt\;$)', ''), '&gt\;') AS `tags`,
   regexp_extract(`date`, '^(\\d{4})', 1) AS `year`,
-  regexp_extract(`date`, '^\\d{4}-(\\d{2})', 1) AS `month`
+  regexp_extract(`date`, '^(\\d{4}-\\d{2})', 1) AS `month`
 FROM `posts_sample_external`
+;
+SELECT * FROM (
+    SELECT year, month, count(1)
+    FROM posts_sample
+    GROUP BY year, month
+    LIMIT 3
+) AS SubQ
+SORT BY month DESC
+LIMIT 1
 ;
