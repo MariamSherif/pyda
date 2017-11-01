@@ -1,4 +1,5 @@
 mapper*.py
 reducer*.py
 *.log
+metastore*
 
