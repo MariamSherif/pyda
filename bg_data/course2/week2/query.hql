@@ -21,7 +21,7 @@ WITH SERDEPROPERTIES (
 )
 STORED AS TEXTFILE
 LOCATION
-  '/data/stackexchange100/posts'
+  '/data/stackexchange1000/posts'
 ;
 -- Create managed table and fill data
 
@@ -40,15 +40,16 @@ PARTITIONED BY (
   `year` string, 
   `month` string
 )
-CLUSTERED BY ( 
-  `date`
-) 
-SORTED BY ( 
-  id ASC
-) 
-INTO 8 BUCKETS
+-- CLUSTERED BY ( 
+--   `date`
+-- ) 
+-- SORTED BY ( 
+--   id ASC
+-- ) 
+-- INTO 8 BUCKETS
 STORED AS TEXTFILE
 LOCATION
+--  '/user/hjudge/task1'
   '/user/jovyan/task1'
 ;
 
@@ -69,13 +70,7 @@ SELECT
   regexp_extract(`date`, '^(\\d{4})', 1) AS `year`,
   regexp_extract(`date`, '^(\\d{4}-\\d{2})', 1) AS `month`
 FROM `posts_sample_external`
-;
-SELECT * FROM (
-    SELECT year, month, count(1)
-    FROM posts_sample
-    GROUP BY year, month
-    LIMIT 3
-) AS SubQ
-SORT BY month DESC
-LIMIT 1
+WHERE
+  `id` IS NOT NULL
+  AND `date` IS NOT NULL
 ;
