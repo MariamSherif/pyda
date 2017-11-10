@@ -1,4 +1,5 @@
 version: '3'
+
 services:
     yarn:
         image: bigdatateam/yarn-notebook:0.3
@@ -16,6 +17,13 @@ services:
             - "8088:8088"
     hive:
         image: bigdatateam/hive-course2
+        volumes:
+            - "${PWD}:/home/jovyan/work"
+        ports:
+            - "8888:8888"
+            - "8088:8088"
+    spark2:
+        image: bigdatateam/spark-course2
         volumes:
             - "${PWD}:/home/jovyan/work"
         ports:
